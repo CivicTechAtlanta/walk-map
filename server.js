@@ -5,7 +5,7 @@ var url = process.env.MONGO_URL
 
 var app = express()
 
-var radius = 5.0 / 3963.2 // 5 miles converted to radians
+var radius = 5.0 / 3963.2 // 5 miles converted to radians (by dividing radius of earth)
 
 function getCrimeScore(db, lat, lng) {
   return db.collection('crimes').find({

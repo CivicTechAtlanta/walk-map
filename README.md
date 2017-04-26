@@ -20,7 +20,7 @@
 // transit_vehicles (no meaningful data)
 // issues
 
-http://localhost:8080/api/score?lat=33.8506616&lng=-84.371687
+http://localhost:8080/api/score?lat=-84.484257&lng=33.789231
 
 MONGO_URL=... npm start
 
