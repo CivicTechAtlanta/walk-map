@@ -3,9 +3,24 @@ var MongoClient = require('mongodb').MongoClient
 
 var url = process.env.MONGO_URL
 
+console.log("url", url);
+
 var app = express()
 
 var radius = 5.0 / 3963.2 // 5 miles converted to radians (by dividing radius of earth)
+
+// TODO: calculate area of parks - score is a product of park's polygon area
+
+function getParkScore(db, lat, lng) {
+  return db.collection('murals').find({
+    location: {
+      $geoWithin: { $centerSphere: [ [ lat, lng ], radius ] }
+    }
+  }).count().then(function (count) {
+    // plus one point for every mural in the area
+    return 1 * count
+  })
+}
 
 function getCrimeScore(db, lat, lng) {
   return db.collection('crimes').find({
@@ -28,7 +43,8 @@ app.get('/api/score', function (req, res) {
     })
   }
   Promise.all([
-    getCrimeScore(app.db, lat, lng)
+    getCrimeScore(app.db, lat, lng),
+    getParkScore(app.db, lat, lng)
     // TODO add more endpoints
   ]).then(function (results) {
     return results.reduce(function (a, b) { return a + b }, 0)
