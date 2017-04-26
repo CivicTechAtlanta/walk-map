@@ -1,20 +1,26 @@
 {
   "name": "walk-map",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "// missing: // street closures // bike lanes // murals // government_properties // parks // government_vehicles // trees",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "d"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.15.2",
     "mongodb": "^2.2.26",
     "node-fetch": "^1.6.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeforatlanta/walk-map.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codeforatlanta/walk-map/issues"
+  },
+  "homepage": "https://github.com/codeforatlanta/walk-map#readme"
 }
