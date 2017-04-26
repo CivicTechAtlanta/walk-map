@@ -23,3 +23,13 @@
 http://localhost:8080/api/score?lat=33.8506616&lng=-84.371687
 
 MONGO_URL=... npm start
+
+Api usage
+
+```js
+var Api = require('./api')
+var atl = new Api('atl-ga')
+atl.crimes.get().then(function (crimes) {
+  // ...
+})
+```
