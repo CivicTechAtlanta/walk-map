@@ -1,11 +1,15 @@
 var express = require('express')
 var MongoClient = require('mongodb').MongoClient
+var api = require('./api')
+var fs = require('fs')
+
+process.env = require('./load_env.js')
 
 var url = process.env.MONGO_URL
 
-console.log("url", url);
-
 var app = express()
+
+var template = require('./template.js')
 
 var radius = 5.0 / 3963.2 // 5 miles converted to radians (by dividing radius of earth)
 
@@ -53,6 +57,17 @@ app.get('/api/score', function (req, res) {
   }).catch(function (err) {
     res.status(500).json(err)
   })
+})
+
+app.get('/', function (req, res) {
+  let lat = 33.8485764
+  let lng = -84.3757447
+
+  template(res, lat, lng)
+})
+
+app.get('/favicon.ico', function (req, res) {
+  return res.sendFile(require('fs').readFileSync('./favicon'))
 })
 
 MongoClient.connect(url).then(function (db) {

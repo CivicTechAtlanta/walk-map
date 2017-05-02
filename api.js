@@ -45,6 +45,8 @@ function Api (municipality) {
       }
     }
   })
+
+  console.log(api)
 }
 
 function pagedRequest (urlString, offset, previousResults) {
