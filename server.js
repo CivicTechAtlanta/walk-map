@@ -2,15 +2,14 @@ var express = require('express')
 var MongoClient = require('mongodb').MongoClient
 var api = require('./api')
 var fs = require('fs')
+var path = require('path')
+var browserify = require('browserify')
 
 process.env = require('./load_env.js')
 
 var url = process.env.MONGO_URL
-
 var app = express()
-
 var template = require('./template.js')
-
 var radius = 5.0 / 3963.2 // 5 miles converted to radians (by dividing radius of earth)
 
 // TODO: calculate area of parks - score is a product of park's polygon area
@@ -60,17 +59,25 @@ app.get('/api/score', function (req, res) {
 })
 
 app.get('/', function (req, res) {
-  let lat = 33.8485764
-  let lng = -84.3757447
+  template(res)
+})
 
-  template(res, lat, lng)
+app.get('/bundle.js', function (req, res) {
+  res.status(200)
+  return app.b.bundle().pipe(res)
 })
 
 app.get('/favicon.ico', function (req, res) {
-  return res.sendFile(require('fs').readFileSync('./favicon'))
+  return res.sendFile(require('fs').readFileSync(path.resolve('./favicon')))
 })
 
+app.b = browserify()
+
 MongoClient.connect(url).then(function (db) {
+  fs.readdirSync(path.resolve('./components'))
+      .forEach(function(file) {
+        app.b.add(path.resolve('./components/' + file))
+      })
   app.db = db
 
   var port = process.env.PORT || 8080
